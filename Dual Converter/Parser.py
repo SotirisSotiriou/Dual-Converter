@@ -2,6 +2,7 @@ import sys as system
 import os
 import shutil
 
+
 def parse(filename):
     file = None
     maxmin = 0
