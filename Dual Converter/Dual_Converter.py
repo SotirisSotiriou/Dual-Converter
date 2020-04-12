@@ -7,11 +7,7 @@ def convert(filename):
     Eqin = []
     maxmin = []
     c, A, b, maxmin, Eqin = parse(filename)
-    print("c = " + str(c) + "\n")
-    print("A = " + str(A) + "\n")
-    print("b = " + str(b) + "\n")
-    print("Eqin = " + str(Eqin) + "\n")
-    print("maxmin = " + str(maxmin) + "\n")
+
 
 
 def createNewFile(self, filename):
