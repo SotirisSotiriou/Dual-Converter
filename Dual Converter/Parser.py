@@ -374,27 +374,3 @@ def readFunc(text, index):
         system.exit(0)
     return index
 
-
-   
-
-
-# ----------------------------------------------------------------------------------------
-
-def main():
-    filename = str(input("\nType problem file name: "))
-    problem = Problem(filename)
-    print("problem done")
-    print("maxmin = " + str(problem.maxmin))
-    print("c = " + str(problem.c))
-    print("variables = " + str(problem.Variables))
-    print("A = " + str(problem.A))
-    print("b = " + str(problem.b))
-    print("Eqin = " + str(problem.Eqin) + "\n")
-    try:
-        shutil.rmtree("__pycache__")
-    except OSError as e:
-        pass
-
-
-if __name__ == "__main__":
-     main()
