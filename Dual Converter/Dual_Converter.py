@@ -9,7 +9,8 @@ def convert(filename):
     #input
     cPrimal, APrimal, bPrimal, maxminPrimal, eqinPrimal = parse(filename)
 
-    #convertion
+    #conversion
+
 
 
 
