@@ -10,7 +10,12 @@ def convert(filename):
 
 
 
-def createNewFile(self, filename):
+def export(oldfilename):
+    createNewFile(oldfilename)
+
+
+
+def createNewFile(filename):
         noExtensionName = ""
         extension = ""
         index = 0
@@ -35,6 +40,7 @@ def createNewFile(self, filename):
 
             system.exit(0)
         return file
+
 
 def main():
     filename = str(input("\nEnter problem file name: "))
