@@ -15,7 +15,6 @@ def convert(filename):
 
 
 
-
 def export(oldfilename, c, A, b, eqin, maxmin):
     newfile = createNewFile(oldfilename)
     writeNewFile(newfile, c, A, b, eqin, maxmin)
