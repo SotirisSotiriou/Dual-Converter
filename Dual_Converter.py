@@ -1,11 +1,23 @@
 import sys as system
+import os
 
 def convert(filename):
     #input
-    cPrimal, APrimal, bPrimal, maxminPrimal, eqinPrimal = parse(filename)
+    cPrimal, APrimal, bPrimal, maxminPrimal, eqinPrimal, variablesPrimal = parse(filename)
     variablesEqinPrimal = len(cPrimal)*[1]
 
+    print(2*"\n" + "Primal LP:")
+    print("A = " + str(APrimal))
+    print("c = " + str(cPrimal))
+    print("b = " + str(bPrimal))
+    print("maxmin = " + str(maxminPrimal))
+    print("eqin = " + str(eqinPrimal))
+    print("variables = " + str(variablesPrimal))
+    print("variablesEqin = " + str(variablesEqinPrimal))
+
     #conversion
+    print(2*"\n" + "Converting...")
+
     ADual = inverse(APrimal)
     cDual = bPrimal
     bDual = cPrimal
@@ -13,6 +25,10 @@ def convert(filename):
     eqinDual = setDualEquations(maxminPrimal, variablesEqinPrimal)
     variablesDual = setDualVariables(len(bPrimal))
     variablesEqinDual = setDualVariablesEquations(maxminPrimal, eqinPrimal)
+
+    newFile = createNewFile(filename)
+    writeNewFile(newFile, cDual, ADual, bDual, eqinDual, maxminDual, variablesDual, variablesEqinDual)
+
 
     return ADual, cDual, bDual, maxminDual, eqinDual, variablesDual, variablesEqinDual
 
@@ -139,7 +155,7 @@ def createNewFile(filename):
 
 
 
-def writeNewFile(file, c, A, b, eqin, maxmin, variables): 
+def writeNewFile(file, c, A, b, eqin, maxmin, variables, variablesEqin): 
     #the tables c, A, b, Equin, maxmin, variables are refering to dual problem
     if maxmin == 1:
         file.write("max ")
@@ -149,11 +165,15 @@ def writeNewFile(file, c, A, b, eqin, maxmin, variables):
     
     index = 0
     while index < len(c):
-        file.write(str(c[index]))
-        file.write(str(variables[index]))
+        if c[index] >= 0:
+            file.write("+" + str(c[index]))
+        else:
+            file.write(str(c[index]))
+        file.write(str(variables[index]) + " ")
+        index += 1
     file.write("\ns.t.\n")
     for row in range(0,len(A)):
-        for col in range(0, len(A[0])):
+        for col in range(0, len(A[row])):
             if A[row][col] >= 0:
                 file.write('+' + str(A[row][col]))
                 file.write(str(variables[col]) + " ")
@@ -162,13 +182,25 @@ def writeNewFile(file, c, A, b, eqin, maxmin, variables):
                 file.write(str(variables[col]) + " ")
         if eqin[row] == -1:
             file.write("<= ")
-            file.write(str(b[row]))
+            file.write(str(b[row]) + "\n")
         elif eqin[row] == 0:
             file.write("= ")
-            file.write(str(b[row]))
+            file.write(str(b[row]) + "\n")
         elif eqin[row] == 1:
             file.write(">= ")
-            file.write(str(b[row]))
+            file.write(str(b[row]) + "\n")
+    file.write(2*"\n")
+    for i in range(len(variablesEqin)):
+        file.write(str(variables[i]))
+        if variablesEqin[i] == 1:
+            file.write(" >= 0\n")
+        elif variablesEqin[i] == -1:
+            file.write(" <= 0\n")
+        elif variablesEqin == 0:
+            file.write(" -> free\n")
+        else:
+            print("Error: wrong variable equation")
+            system.exit(0)
 
 
 
@@ -183,6 +215,8 @@ def parse(filename):
     b = []
     c = []
     Variables = []  # a list of the problem variable names e.g. x1, x2, x3, ... or x, y, z, w, ...
+
+    print("Parsing...")
 
     try:
         file = open(filename, "r")
@@ -207,7 +241,7 @@ def parse(filename):
     subjectLineFound = False
     while not subjectLineFound:
         check, subjectLine, subjectLineFound = subjectCheck(lines[subjectLine], subjectLine)
-    print("Subject check = " + str(check))
+    print("Subject check = ", str(check))
     if check == False:
         print("Syntax Error. 2nd line must be st, s.t. or subject\n")
         system.exit(0)
@@ -223,7 +257,7 @@ def parse(filename):
         if eqinelement is not None:
             Eqin.append(eqinelement)
     file.close()
-    return c, A, b, maxmin, Eqin
+    return c, A, b, maxmin, Eqin, Variables
 
 
 # ------------------------------------Parser Methods --------------------------------------
@@ -553,13 +587,14 @@ def readFunc(text, index):
 def main():
     filename = str(input("\nEnter problem file name: "))
     A, c, b, maxmin, eqin, variables, variablesEqin = convert(filename)
-    print(A)
-    print(c)
-    print(b)
-    print(maxmin)
-    print(eqin)
-    print(variables)
-    print(variablesEqin)
+    print(2*"\n" + "Dual LP:")
+    print("A = " + str(A))
+    print("c = " + str(c))
+    print("b = " + str(b))
+    print("maxmin = " + str(maxmin))
+    print("eqin = " + str(eqin))
+    print("variables = " + str(variables))
+    print("variablesEqin = " + str(variablesEqin))
 
 
 if __name__ == "__main__":
