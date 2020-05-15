@@ -166,19 +166,19 @@ def writeNewFile(file, c, A, b, eqin, maxmin, variables, variablesEqin):
     index = 0
     while index < len(c):
         if c[index] >= 0:
-            file.write("+" + str(c[index]))
+            file.write("+ " + str(c[index]))
         else:
-            file.write(str(c[index]))
+            file.write("- " + str(abs(c[index])))
         file.write(str(variables[index]) + " ")
         index += 1
     file.write("\ns.t.\n")
     for row in range(0,len(A)):
         for col in range(0, len(A[row])):
             if A[row][col] >= 0:
-                file.write('+' + str(A[row][col]))
+                file.write('+ ' + str(A[row][col]))
                 file.write(str(variables[col]) + " ")
             else:
-                file.write(str(A[row][col]))
+                file.write("- " + str(abs(A[row][col])))
                 file.write(str(variables[col]) + " ")
         if eqin[row] == -1:
             file.write("<= ")
