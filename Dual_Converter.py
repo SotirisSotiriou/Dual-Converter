@@ -595,6 +595,7 @@ def main():
     print("eqin = " + str(eqin))
     print("variables = " + str(variables))
     print("variablesEqin = " + str(variablesEqin))
+    os.system("pause")
 
 
 if __name__ == "__main__":
