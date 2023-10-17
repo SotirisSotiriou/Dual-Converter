@@ -1,6 +1,9 @@
 # Input files
 *.txt
 
+# VS Code config
+.vs/
+
 # Visual Studio python project files
 
 # Byte-compiled / optimized / DLL files
